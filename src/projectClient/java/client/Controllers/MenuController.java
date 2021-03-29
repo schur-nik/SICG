@@ -18,7 +18,7 @@ public class MenuController {
     @FXML
     void startButtonAction(ActionEvent event) throws IOException {
         Stage newStage = new Stage();
-        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("LevelsFrame.fxml"));
+        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("Models/LevelsFrame.fxml"));
         newStage.setTitle("Levels");
         newStage.setScene(new Scene(root, 440, 670));
         newStage.show();

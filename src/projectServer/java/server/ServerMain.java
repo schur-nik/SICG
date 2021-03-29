@@ -15,7 +15,6 @@ public class ServerMain {
             e.printStackTrace();
         }
         while (true) {
-
             System.out.println("server started....");
 
             Socket clientAccepted = null;
@@ -30,7 +29,6 @@ public class ServerMain {
             }
 
             WorkWithClient myWorkWithClient = new WorkWithClient(clientAccepted, isos, osos);
-
             Thread threadForWorkWithClient = new Thread(myWorkWithClient);
             threadForWorkWithClient.start();
         }
