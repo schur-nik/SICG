@@ -17,12 +17,13 @@ public class MenuController {
 
     @FXML
     void startButtonAction(ActionEvent event) throws IOException {
-        Stage newStage = new Stage();
-        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("Models/LevelsFrame.fxml"));
-        newStage.setTitle("Levels");
+        //Stage newStage = new Stage();
+        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("Models/LevelMenuFrame.fxml"));
+        startButton.getScene().setRoot(root);
+/*        newStage.setTitle("Levels");
         newStage.setScene(new Scene(root, 440, 670));
         newStage.show();
-        startButton.getScene().getWindow().hide();
+        startButton.getScene().getWindow().hide();*/
     }
 
     @FXML

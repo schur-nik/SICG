@@ -16,11 +16,11 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="SICG" />
+        <module name="SECG" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="SICG" target="8" />
+      <module name="SECG" target="8" />
     </bytecodeTargetLevel>
   </component>
 </project>

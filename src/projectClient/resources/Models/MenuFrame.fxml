@@ -9,7 +9,7 @@
    <children>
       <AnchorPane prefHeight="97.0" prefWidth="440.0" style="-fx-background-color: #2E3348;">
          <children>
-            <Label fx:id="l1menu" layoutX="14.0" layoutY="2.0" prefHeight="96.0" prefWidth="138.0" text="SICG" textFill="#8ceb3b">
+            <Label fx:id="l1menu" layoutX="14.0" layoutY="2.0" prefHeight="96.0" prefWidth="138.0" text="SECG" textFill="#8ceb3b">
                <font>
                   <Font name="Impact" size="62.0" />
                </font>
