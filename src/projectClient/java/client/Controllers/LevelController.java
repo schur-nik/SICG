@@ -1,5 +1,6 @@
 package client.Controllers;
 
+import client.Models.TaskModel;
 import com.interactivemesh.jfx.importer.stl.StlMeshImporter;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -24,8 +25,11 @@ import javafx.scene.transform.Transform;
 import javafx.scene.transform.Translate;
 
 import java.io.File;
+import java.util.ArrayList;
 
 public class LevelController {
+
+    private static ArrayList<TaskModel> tasks = new ArrayList<>();
 
     private static final String MESH_FILENAME =
             "/Users/Shyr_NS/IdeaProjects/SECG/src/projectClient/resources/Tasks/3dModels/Besenhalter_325mm.stl";
@@ -68,6 +72,10 @@ public class LevelController {
         PerspectiveCamera perspectiveCamera = new PerspectiveCamera();
         scene.setCamera(perspectiveCamera);
         return perspectiveCamera;
+    }
+
+    public static void setTasks(ArrayList<TaskModel> tasks) {
+        LevelController.tasks = tasks;
     }
 
     @FXML
@@ -132,6 +140,7 @@ public class LevelController {
 
     }
     double anchorX, anchorY, anchorAngle;
+    Rotate rotateX = new Rotate(), rotateY = new Rotate();
     @FXML
     void buttonNextAction(ActionEvent event) {
         Group group = buildScene();
@@ -146,21 +155,14 @@ public class LevelController {
         });
         subsceneOne.setOnMouseDragged(new EventHandler<MouseEvent>() {
             @Override public void handle(MouseEvent event) {
-             /*   if (event.getButton().equals(MouseButton.SECONDARY)) {
-                    group.setRotationAxis(Rotate.Y_AXIS);
-                    group.setRotate(anchorAngle + anchorX - event.getSceneX());
-                }
-                else {
-                    group.setRotationAxis(Rotate.X_AXIS);
-                    group.setRotate(anchorAngle + anchorY - event.getSceneY());
-                }*/
                 if (event.getButton().equals(MouseButton.PRIMARY)) {
-                    group.getTransforms().setAll(new Rotate(anchorAngle + anchorX - event.getSceneX(), Rotate.Y_AXIS),
-                            new Rotate(anchorAngle + anchorY - event.getSceneY(), Rotate.X_AXIS));
+                    rotateY = new Rotate(rotateY.getAngle() + (anchorX - event.getSceneX())/10, Rotate.Y_AXIS);
+                    rotateX = new Rotate(rotateX.getAngle() + (anchorY - event.getSceneY())/10, Rotate.X_AXIS);
+                    group.getTransforms().setAll(rotateY, rotateX);
                 }
                 else {
-                    group.setLayoutX(group.getLayoutX() + anchorX - event.getSceneX());
-                    group.setLayoutY(group.getLayoutY() + anchorY - event.getSceneY());
+                    group.setLayoutX(group.getLayoutX() + (anchorX - event.getSceneX())/5);
+                    group.setLayoutY(group.getLayoutY() + (anchorY - event.getSceneY())/5);
                 }
             }
         });
@@ -174,6 +176,8 @@ public class LevelController {
 
     @FXML
     void initialize() {
+        labelTopic.setText(tasks.get(0).getStringTopic());
+        textAreaTask.setText(tasks.get(0).getStringTask());
     }
 
 }
