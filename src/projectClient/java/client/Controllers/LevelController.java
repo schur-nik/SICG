@@ -15,14 +15,15 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Mesh;
 import javafx.scene.shape.MeshView;
 import javafx.scene.transform.Rotate;
-
 import java.io.File;
 import java.util.ArrayList;
 
@@ -33,7 +34,7 @@ public class LevelController {
     private Integer trueAnswer = 0;
 
     private static final String MESH_FILENAME =
-            "/Users/Shyr_NS/IdeaProjects/SECG/src/projectClient/resources/Tasks/3dModels/Besenhalter_325mm.stl";
+            "/Users/Shyr_NS/IdeaProjects/SECG/src/projectClient/resources/TaskRes/3dModels/Besenhalter_325mm.stl";
 
     private static final double MODEL_SCALE_FACTOR = 3;
     private static final double MODEL_X_OFFSET = 0; // standard
@@ -142,7 +143,6 @@ public class LevelController {
         textAreaTask.setText(task.getTask().get(numberLevelOfTask-1).getStringTask());
         setAnswers(task.getTask().get(numberLevelOfTask-1).getIntegerNumberAnswer());
         trueAnswer = task.getTask().get(numberLevelOfTask-1).getIntegerTrueAnswer();
-        textAreaTask.setText(textAreaTask.getText() + " TRUE ANSWER: " + trueAnswer);
     }
 
     private void setAnswers(Integer answerCount) {
@@ -157,10 +157,18 @@ public class LevelController {
         }
         ObservableList<Node> buttons = anchorPaneButtons.getChildren();
         for (int i=0;i<answerCount;i++) {
-            buttons.get(i).setVisible(true);
+            Button tempButton = (Button) buttons.get(i);
+            tempButton.setVisible(true);
+            tempButton.setBackground(new Background
+                                                     (new BackgroundImage(task.getTask().get(numberLevelOfTask-1).getMasImageViewAnswer()[i].getImage(),
+                                                                          BackgroundRepeat.NO_REPEAT,
+                                                                          BackgroundRepeat.NO_REPEAT,
+                                                                          BackgroundPosition.DEFAULT,
+                                                                          BackgroundSize.DEFAULT)
+                                                     )
+                                    );
         }
     }
-
     @FXML
     void buttonEndAction(ActionEvent event) {
 

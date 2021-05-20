@@ -1,16 +1,16 @@
 package client.Models;
 
-import javax.swing.text.html.ImageView;
+import javafx.scene.image.ImageView;
 
 public class TaskLevelModel {
     private String stringTopic = "NOT FOUND";
     private String stringTask = "NOT FOUND";
     private Integer integerNumberAnswer = 0;
     private Integer integerTrueAnswer = 0;
-    private ImageView masImageViewAnswer = null;
+    private ImageView[] masImageViewAnswer = null;
     private String stringMeshFilename = null;
 
-    public TaskLevelModel(String stringTopic, String stringTask, Integer integerNumberAnswer, Integer integerTrueAnswer, ImageView masImageViewAnswer, String stringMeshFilename) {
+    public TaskLevelModel(String stringTopic, String stringTask, Integer integerNumberAnswer, Integer integerTrueAnswer, ImageView[] masImageViewAnswer, String stringMeshFilename) {
         this.stringTopic = stringTopic;
         this.stringTask = stringTask;
         this.integerNumberAnswer = integerNumberAnswer;
@@ -63,13 +63,9 @@ public class TaskLevelModel {
         this.integerTrueAnswer = integerTrueAnswer;
     }
 
-    public ImageView getMasImageViewAnswer() {
-        return masImageViewAnswer;
-    }
+    public ImageView[] getMasImageViewAnswer() { return masImageViewAnswer; }
 
-    public void setMasImageViewAnswer(ImageView masImageViewAnswer) {
-        this.masImageViewAnswer = masImageViewAnswer;
-    }
+    public void setMasImageViewAnswer(ImageView[] masImageViewAnswer) { this.masImageViewAnswer = masImageViewAnswer; }
 
     public String getStringMeshFilename() {
         return stringMeshFilename;
