@@ -2,7 +2,7 @@ package client.Models;
 
 import javax.swing.text.html.ImageView;
 
-public class TaskModel {
+public class TaskLevelModel {
     private String stringTopic = "NOT FOUND";
     private String stringTask = "NOT FOUND";
     private Integer integerNumberAnswer = 0;
@@ -10,7 +10,7 @@ public class TaskModel {
     private ImageView masImageViewAnswer = null;
     private String stringMeshFilename = null;
 
-    public TaskModel(String stringTopic, String stringTask, Integer integerNumberAnswer, Integer integerTrueAnswer, ImageView masImageViewAnswer, String stringMeshFilename) {
+    public TaskLevelModel(String stringTopic, String stringTask, Integer integerNumberAnswer, Integer integerTrueAnswer, ImageView masImageViewAnswer, String stringMeshFilename) {
         this.stringTopic = stringTopic;
         this.stringTask = stringTask;
         this.integerNumberAnswer = integerNumberAnswer;
@@ -19,7 +19,7 @@ public class TaskModel {
         this.stringMeshFilename = stringMeshFilename;
     }
 
-    public TaskModel(String stringTopic, String stringTask) {
+    public TaskLevelModel(String stringTopic, String stringTask) {
         this.stringTopic = stringTopic;
         this.stringTask = stringTask;
     }

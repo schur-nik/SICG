@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.effect.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.Bloom?>
+<?import javafx.scene.effect.Glow?>
+<?import javafx.scene.effect.InnerShadow?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="670.0" prefWidth="440.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.Controllers.MenuController">
+<AnchorPane maxHeight="745.0" maxWidth="1250.0" minHeight="745.0" minWidth="1250.0" prefHeight="745.0" prefWidth="1250.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.Controllers.MenuController">
    <children>
-      <AnchorPane prefHeight="97.0" prefWidth="440.0" style="-fx-background-color: #2E3348;">
+      <AnchorPane maxHeight="100.0" maxWidth="1250.0" minHeight="100.0" minWidth="1250.0" prefHeight="100.0" prefWidth="1250.0" style="-fx-background-color: #2E3348;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Label fx:id="l1menu" layoutX="14.0" layoutY="2.0" prefHeight="96.0" prefWidth="138.0" text="SECG" textFill="#8ceb3b">
+            <Label fx:id="l1menu" layoutX="14.0" layoutY="2.0" maxHeight="80.0" maxWidth="140.0" minHeight="80.0" minWidth="140.0" prefHeight="80.0" prefWidth="140.0" text="SECG" textFill="#8ceb3b" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="10.0">
                <font>
                   <Font name="Impact" size="62.0" />
                </font>

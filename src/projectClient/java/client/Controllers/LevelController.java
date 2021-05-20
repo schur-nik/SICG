@@ -1,6 +1,6 @@
 package client.Controllers;
 
-import client.Models.TaskModel;
+import client.Models.Task;
 import com.interactivemesh.jfx.importer.stl.StlMeshImporter;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -17,19 +17,16 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.CullFace;
 import javafx.scene.shape.Mesh;
 import javafx.scene.shape.MeshView;
 import javafx.scene.transform.Rotate;
-import javafx.scene.transform.Transform;
-import javafx.scene.transform.Translate;
 
 import java.io.File;
-import java.util.ArrayList;
 
 public class LevelController {
 
-    private static ArrayList<TaskModel> tasks = new ArrayList<>();
+    private static Task task = null;
+    private Integer numberLevelOfTask = 0;
 
     private static final String MESH_FILENAME =
             "/Users/Shyr_NS/IdeaProjects/SECG/src/projectClient/resources/Tasks/3dModels/Besenhalter_325mm.stl";
@@ -74,8 +71,8 @@ public class LevelController {
         return perspectiveCamera;
     }
 
-    public static void setTasks(ArrayList<TaskModel> tasks) {
-        LevelController.tasks = tasks;
+    public static void setTask(Task task) {
+        LevelController.task = task;
     }
 
     @FXML
@@ -143,6 +140,17 @@ public class LevelController {
     Rotate rotateX = new Rotate(), rotateY = new Rotate();
     @FXML
     void buttonNextAction(ActionEvent event) {
+        if (numberLevelOfTask+1 < task.getTask().size()) {
+            numberLevelOfTask++;
+            labelCounter.setText((numberLevelOfTask+1)+"/"+task.getTask().size());
+            labelTopic.setText(task.getTask().get(numberLevelOfTask).getStringTopic());
+            textAreaTask.setText(task.getTask().get(numberLevelOfTask).getStringTask());
+        }
+        else {}
+    }
+
+    @FXML
+    void buttonPrevAction(ActionEvent event) {
         Group group = buildScene();
         subsceneOne.setRoot(group);
         subsceneOne.setFill(Color.rgb(10, 10, 40));
@@ -170,14 +178,10 @@ public class LevelController {
     }
 
     @FXML
-    void buttonPrevAction(ActionEvent event) {
-
-    }
-
-    @FXML
     void initialize() {
-        labelTopic.setText(tasks.get(0).getStringTopic());
-        textAreaTask.setText(tasks.get(0).getStringTask());
+        labelCounter.setText("1/"+task.getTask().size());
+        labelTopic.setText(task.getTask().get(0).getStringTopic());
+        textAreaTask.setText(task.getTask().get(0).getStringTask());
     }
 
 }

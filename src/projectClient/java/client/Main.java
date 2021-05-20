@@ -1,5 +1,6 @@
 package client;
 
+import client.Models.LocalTasks;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -20,10 +21,12 @@ public class Main extends Application {
         Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("Models/MenuFrame.fxml"));
         primaryStage.setTitle("SECG");
         primaryStage.setScene(new Scene(root, 1250, 750));
+        primaryStage.setResizable(false);
         primaryStage.show();
     }
 
     public static void main(String[] args) {
+        LocalTasks localTasks = new LocalTasks();
         try {
             Socket clientSocket = new Socket("127.0.0.1", 1006);
             coos = new ObjectOutputStream(clientSocket.getOutputStream());

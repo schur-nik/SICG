@@ -1,18 +1,18 @@
 package client;
 
-import client.Models.TaskModel;
+import client.Models.TaskLevelModel;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 public class WorkWithServer {
 
-    public static ArrayList<TaskModel> getTasksForLevel(int i) {
-        ArrayList<TaskModel> res = null;
+    public static ArrayList<TaskLevelModel> getTasksForLevel(String nameTask) {
+        ArrayList<TaskLevelModel> res = null;
         try {
             Main.coos.writeObject("getTasksForLevel");
-            res = (ArrayList<TaskModel>) Main.cois.readObject();
+            Main.coos.writeObject(nameTask);
+            res = (ArrayList<TaskLevelModel>) Main.cois.readObject();
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
