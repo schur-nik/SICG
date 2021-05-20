@@ -24,6 +24,13 @@ public class TaskLevelModel {
         this.stringTask = stringTask;
     }
 
+    public TaskLevelModel(String stringTopic, String stringTask, Integer integerNumberAnswer, Integer integerTrueAnswer) {
+        this.stringTopic = stringTopic;
+        this.stringTask = stringTask;
+        this.integerNumberAnswer = integerNumberAnswer;
+        this.integerTrueAnswer = integerTrueAnswer;
+    }
+
     public String getStringTopic() {
         return stringTopic;
     }

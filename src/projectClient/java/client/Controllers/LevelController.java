@@ -2,10 +2,12 @@ package client.Controllers;
 
 import client.Models.Task;
 import com.interactivemesh.jfx.importer.stl.StlMeshImporter;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.PerspectiveCamera;
 import javafx.scene.SubScene;
 import javafx.scene.control.Button;
@@ -22,11 +24,13 @@ import javafx.scene.shape.MeshView;
 import javafx.scene.transform.Rotate;
 
 import java.io.File;
+import java.util.ArrayList;
 
 public class LevelController {
 
     private static Task task = null;
     private Integer numberLevelOfTask = 0;
+    private Integer trueAnswer = 0;
 
     private static final String MESH_FILENAME =
             "/Users/Shyr_NS/IdeaProjects/SECG/src/projectClient/resources/Tasks/3dModels/Besenhalter_325mm.stl";
@@ -79,7 +83,7 @@ public class LevelController {
     private ProgressBar progressBarTime;
 
     @FXML
-    private AnchorPane acnhorPaneButtons;
+    private AnchorPane anchorPaneButtons;
 
     @FXML
     private RadioButton buttonAnswer1;
@@ -132,6 +136,31 @@ public class LevelController {
     @FXML
     private Label labelTime;
 
+    private void setLevel(Integer numberLevel) {
+        labelCounter.setText((numberLevelOfTask)+"/"+task.getTask().size());
+        labelTopic.setText(task.getTask().get(numberLevelOfTask-1).getStringTopic());
+        textAreaTask.setText(task.getTask().get(numberLevelOfTask-1).getStringTask());
+        setAnswers(task.getTask().get(numberLevelOfTask-1).getIntegerNumberAnswer());
+        trueAnswer = task.getTask().get(numberLevelOfTask-1).getIntegerTrueAnswer();
+        textAreaTask.setText(textAreaTask.getText() + " TRUE ANSWER: " + trueAnswer);
+    }
+
+    private void setAnswers(Integer answerCount) {
+        if (answerCount <=3) {
+            anchorPaneButtons.setMaxHeight(180);
+        }
+        else if (answerCount > 3 && answerCount <=6) {
+            anchorPaneButtons.setMaxHeight(360);
+        }
+        else {
+            anchorPaneButtons.setMaxHeight(542);
+        }
+        ObservableList<Node> buttons = anchorPaneButtons.getChildren();
+        for (int i=0;i<answerCount;i++) {
+            buttons.get(i).setVisible(true);
+        }
+    }
+
     @FXML
     void buttonEndAction(ActionEvent event) {
 
@@ -140,11 +169,9 @@ public class LevelController {
     Rotate rotateX = new Rotate(), rotateY = new Rotate();
     @FXML
     void buttonNextAction(ActionEvent event) {
-        if (numberLevelOfTask+1 < task.getTask().size()) {
-            numberLevelOfTask++;
-            labelCounter.setText((numberLevelOfTask+1)+"/"+task.getTask().size());
-            labelTopic.setText(task.getTask().get(numberLevelOfTask).getStringTopic());
-            textAreaTask.setText(task.getTask().get(numberLevelOfTask).getStringTask());
+        numberLevelOfTask++;
+        if (numberLevelOfTask-1 < task.getTask().size()) {
+            setLevel(numberLevelOfTask);
         }
         else {}
     }
@@ -179,9 +206,8 @@ public class LevelController {
 
     @FXML
     void initialize() {
-        labelCounter.setText("1/"+task.getTask().size());
-        labelTopic.setText(task.getTask().get(0).getStringTopic());
-        textAreaTask.setText(task.getTask().get(0).getStringTask());
+        numberLevelOfTask = 1;
+        setLevel(numberLevelOfTask);
     }
 
 }
