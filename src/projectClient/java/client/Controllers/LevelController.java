@@ -6,6 +6,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.PerspectiveCamera;
@@ -15,8 +16,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
@@ -25,11 +24,14 @@ import javafx.scene.shape.Mesh;
 import javafx.scene.shape.MeshView;
 import javafx.scene.transform.Rotate;
 import java.io.File;
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class LevelController {
 
     private static Task task = null;
+    private static Map<Integer, Boolean> mapTrueAnswerOnLevels = new HashMap<Integer, Boolean>();
+    private static Map<Integer, Integer> mapAnswerInLevels = new HashMap<Integer, Integer>();
     private Integer numberLevelOfTask = 0;
     private Integer trueAnswer = 0;
 
@@ -138,35 +140,56 @@ public class LevelController {
     private Label labelTime;
 
     private void setLevel(Integer numberLevel) {
-        labelCounter.setText((numberLevelOfTask)+"/"+task.getTask().size());
-        labelTopic.setText(task.getTask().get(numberLevelOfTask-1).getStringTopic());
-        textAreaTask.setText(task.getTask().get(numberLevelOfTask-1).getStringTask());
-        setAnswers(task.getTask().get(numberLevelOfTask-1).getIntegerNumberAnswer());
-        trueAnswer = task.getTask().get(numberLevelOfTask-1).getIntegerTrueAnswer();
+        resetLevel();
+        loadLevel();
+        labelCounter.setText((numberLevelOfTask)+"/"+task.getListLevelsOfTask().size());
+        labelTopic.setText(task.getListLevelsOfTask().get(numberLevelOfTask-1).getStringTopic());
+        textAreaTask.setText(task.getListLevelsOfTask().get(numberLevelOfTask-1).getStringTask());
+        setAnswers(task.getListLevelsOfTask().get(numberLevelOfTask-1).getIntegerNumberAnswer());
+        trueAnswer = task.getListLevelsOfTask().get(numberLevelOfTask-1).getIntegerTrueAnswer();
+    }
+
+    private void loadLevel() {
+        if (mapAnswerInLevels.containsKey(numberLevelOfTask)) {
+            ((RadioButton)anchorPaneButtons.getChildren().get(mapAnswerInLevels.get(numberLevelOfTask)-1)).setSelected(true);
+        }
+    }
+
+    private void resetLevel() {
+        for (Node radioButton : anchorPaneButtons.getChildren()) {
+            radioButton.setVisible(false);
+            ((RadioButton) radioButton).setSelected(false);
+            ((RadioButton) radioButton).setBackground(null);
+        }
     }
 
     private void setAnswers(Integer answerCount) {
         if (answerCount <=3) {
             anchorPaneButtons.setMaxHeight(180);
+            anchorPaneButtons.setMinHeight(180);
         }
-        else if (answerCount > 3 && answerCount <=6) {
+        else if (answerCount <=6) {
             anchorPaneButtons.setMaxHeight(360);
+            anchorPaneButtons.setMinHeight(360);
         }
         else {
             anchorPaneButtons.setMaxHeight(542);
+            anchorPaneButtons.setMinHeight(542);
         }
         ObservableList<Node> buttons = anchorPaneButtons.getChildren();
         for (int i=0;i<answerCount;i++) {
-            Button tempButton = (Button) buttons.get(i);
+            RadioButton tempButton = (RadioButton) buttons.get(i);
             tempButton.setVisible(true);
-            tempButton.setBackground(new Background
-                                                     (new BackgroundImage(task.getTask().get(numberLevelOfTask-1).getMasImageViewAnswer()[i].getImage(),
-                                                                          BackgroundRepeat.NO_REPEAT,
-                                                                          BackgroundRepeat.NO_REPEAT,
-                                                                          BackgroundPosition.DEFAULT,
-                                                                          BackgroundSize.DEFAULT)
-                                                     )
-                                    );
+            if (task.getListLevelsOfTask().get(numberLevelOfTask-1).getMasImageViewAnswer() != null) {
+                tempButton.setBackground(new Background
+                        (new BackgroundImage(task.getListLevelsOfTask().get(numberLevelOfTask - 1).getMasImageViewAnswer()[i].getImage(),
+                                BackgroundRepeat.NO_REPEAT,
+                                BackgroundRepeat.NO_REPEAT,
+                                BackgroundPosition.CENTER,
+                                BackgroundSize.DEFAULT)
+                        )
+                );
+            }
         }
     }
     @FXML
@@ -177,8 +200,8 @@ public class LevelController {
     Rotate rotateX = new Rotate(), rotateY = new Rotate();
     @FXML
     void buttonNextAction(ActionEvent event) {
-        numberLevelOfTask++;
-        if (numberLevelOfTask-1 < task.getTask().size()) {
+        if (numberLevelOfTask < task.getListLevelsOfTask().size()) {
+            numberLevelOfTask++;
             setLevel(numberLevelOfTask);
         }
         else {}
@@ -186,7 +209,12 @@ public class LevelController {
 
     @FXML
     void buttonPrevAction(ActionEvent event) {
-        Group group = buildScene();
+        if (numberLevelOfTask-1 > 0) {
+            numberLevelOfTask--;
+            setLevel(numberLevelOfTask);
+        }
+        else {}
+/*        Group group = buildScene();
         subsceneOne.setRoot(group);
         subsceneOne.setFill(Color.rgb(10, 10, 40));
         subsceneOne.setOnMousePressed(new EventHandler<MouseEvent>() {
@@ -209,13 +237,33 @@ public class LevelController {
                 }
             }
         });
-        addCamera(subsceneOne);
+        addCamera(subsceneOne);*/
     }
 
     @FXML
     void initialize() {
         numberLevelOfTask = 1;
         setLevel(numberLevelOfTask);
+        for (Node radioButton : anchorPaneButtons.getChildren()) {
+            ((RadioButton)radioButton).setOnAction(new EventHandler<ActionEvent>() {
+                @Override public void handle(ActionEvent event) {
+                    Integer idButton = Integer.valueOf(((RadioButton)event.getSource()).getId().replaceAll("[^0-9]", ""));
+                    for (Node tempButton : anchorPaneButtons.getChildren()) {
+                        if (idButton > task.getListLevelsOfTask().get(numberLevelOfTask-1).getIntegerNumberAnswer()) {break;}
+                        ((RadioButton)tempButton).setSelected(false);
+                    }
+                    ((RadioButton)event.getSource()).setSelected(true);
+                    //TODO: перенести валидацию ответов в завершение задания и получение результатов
+                    if (idButton == trueAnswer) {
+                        mapTrueAnswerOnLevels.put(numberLevelOfTask, true);
+                    }
+                    else {
+                        mapTrueAnswerOnLevels.put(numberLevelOfTask, false);
+                    }
+                    mapAnswerInLevels.put(numberLevelOfTask, idButton);
+                }
+            });
+        }
     }
 
 }

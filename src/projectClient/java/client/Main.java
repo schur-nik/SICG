@@ -26,14 +26,14 @@ public class Main extends Application {
     }
 
     public static void main(String[] args) {
-        LocalTasks localTasks = new LocalTasks();
-        try {
+        new LocalTasks().start();
+/*        try {
             Socket clientSocket = new Socket("127.0.0.1", 1006);
             coos = new ObjectOutputStream(clientSocket.getOutputStream());
             cois = new ObjectInputStream(clientSocket.getInputStream());
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
         launch(args);
     }
 }
