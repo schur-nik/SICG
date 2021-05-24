@@ -3,75 +3,75 @@ package client.Models;
 import javafx.scene.image.ImageView;
 
 public class TaskLevelModel {
-    private String stringTopic = "NOT FOUND";
-    private String stringTask = "NOT FOUND";
-    private Integer integerNumberAnswer = 0;
-    private Integer integerTrueAnswer = 0;
-    private ImageView[] masImageViewAnswer = null;
-    private String stringMeshFilename = null;
+    private String topicTask = "NOT FOUND";
+    private String textTask = "NOT FOUND";
+    private Integer numberAnswer = 0;
+    private Integer trueAnswer = 0;
+    private ImageView[] masImageAnswer = null;
+    private String[] masTextAnswer = null;
+    private String meshFilename = null;
+    private Integer typeAnswer = 0; // 1 - text, 2 - image
 
-    public TaskLevelModel(String stringTopic, String stringTask, Integer integerNumberAnswer, Integer integerTrueAnswer, ImageView[] masImageViewAnswer, String stringMeshFilename) {
-        this.stringTopic = stringTopic;
-        this.stringTask = stringTask;
-        this.integerNumberAnswer = integerNumberAnswer;
-        this.integerTrueAnswer = integerTrueAnswer;
-        this.masImageViewAnswer = masImageViewAnswer;
-        this.stringMeshFilename = stringMeshFilename;
+    public TaskLevelModel(String topicTask, String textTask, Integer numberAnswer, Integer trueAnswer, ImageView[] masImageAnswer, String[] masTextAnswer, String meshFilename, Integer typeAnswer) {
+        this.topicTask = topicTask;
+        this.textTask = textTask;
+        this.numberAnswer = numberAnswer;
+        this.trueAnswer = trueAnswer;
+        this.masImageAnswer = masImageAnswer;
+        this.masTextAnswer = masTextAnswer;
+        this.meshFilename = meshFilename;
+        this.typeAnswer = typeAnswer;
     }
 
-    public TaskLevelModel(String stringTopic, String stringTask) {
-        this.stringTopic = stringTopic;
-        this.stringTask = stringTask;
+    public String getTopicTask() {
+        return topicTask;
     }
 
-    public TaskLevelModel(String stringTopic, String stringTask, Integer integerNumberAnswer, Integer integerTrueAnswer) {
-        this.stringTopic = stringTopic;
-        this.stringTask = stringTask;
-        this.integerNumberAnswer = integerNumberAnswer;
-        this.integerTrueAnswer = integerTrueAnswer;
+    public void setTopicTask(String topicTask) {
+        this.topicTask = topicTask;
     }
 
-    public String getStringTopic() {
-        return stringTopic;
+    public String getTextTask() {
+        return textTask;
     }
 
-    public void setStringTopic(String stringTopic) {
-        this.stringTopic = stringTopic;
+    public void setTextTask(String textTask) {
+        this.textTask = textTask;
     }
 
-    public String getStringTask() {
-        return stringTask;
+    public Integer getNumberAnswer() {
+        return numberAnswer;
     }
 
-    public void setStringTask(String stringTask) {
-        this.stringTask = stringTask;
+    public void setNumberAnswer(Integer numberAnswer) {
+        this.numberAnswer = numberAnswer;
     }
 
-    public Integer getIntegerNumberAnswer() {
-        return integerNumberAnswer;
+    public Integer getTrueAnswer() {
+        return trueAnswer;
     }
 
-    public void setIntegerNumberAnswer(Integer integerNumberAnswer) {
-        this.integerNumberAnswer = integerNumberAnswer;
+    public void setTrueAnswer(Integer trueAnswer) {
+        this.trueAnswer = trueAnswer;
     }
 
-    public Integer getIntegerTrueAnswer() {
-        return integerTrueAnswer;
+    public ImageView[] getMasImageAnswer() { return masImageAnswer; }
+
+    public void setMasImageAnswer(ImageView[] masImageAnswer) { this.masImageAnswer = masImageAnswer; }
+
+    public String getMeshFilename() {
+        return meshFilename;
     }
 
-    public void setIntegerTrueAnswer(Integer integerTrueAnswer) {
-        this.integerTrueAnswer = integerTrueAnswer;
+    public void setMeshFilename(String meshFilename) {
+        this.meshFilename = meshFilename;
     }
 
-    public ImageView[] getMasImageViewAnswer() { return masImageViewAnswer; }
+    public Integer getTypeAnswer() { return typeAnswer; }
 
-    public void setMasImageViewAnswer(ImageView[] masImageViewAnswer) { this.masImageViewAnswer = masImageViewAnswer; }
+    public void setTypeAnswer(Integer typeAnswer) { this.typeAnswer = typeAnswer; }
 
-    public String getStringMeshFilename() {
-        return stringMeshFilename;
-    }
+    public String[] getMasTextAnswer() { return masTextAnswer; }
 
-    public void setStringMeshFilename(String stringMeshFilename) {
-        this.stringMeshFilename = stringMeshFilename;
-    }
+    public void setMasTextAnswer(String[] masTextAnswer) { this.masTextAnswer = masTextAnswer; }
 }

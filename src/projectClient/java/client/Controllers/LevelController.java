@@ -1,12 +1,12 @@
 package client.Controllers;
 
 import client.Models.Task;
+import client.Models.TaskLevelModel;
 import com.interactivemesh.jfx.importer.stl.StlMeshImporter;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.PerspectiveCamera;
@@ -16,16 +16,12 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
-import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Mesh;
 import javafx.scene.shape.MeshView;
 import javafx.scene.transform.Rotate;
 import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class LevelController {
 
@@ -34,6 +30,8 @@ public class LevelController {
     private static Map<Integer, Integer> mapAnswerInLevels = new HashMap<Integer, Integer>();
     private Integer numberLevelOfTask = 0;
     private Integer trueAnswer = 0;
+    private Integer typeAnswer = 0;
+    private static Integer numberOfLevels = 0;
 
     private static final String MESH_FILENAME =
             "/Users/Shyr_NS/IdeaProjects/SECG/src/projectClient/resources/TaskRes/3dModels/Besenhalter_325mm.stl";
@@ -80,40 +78,68 @@ public class LevelController {
 
     public static void setTask(Task task) {
         LevelController.task = task;
+        numberOfLevels = task.getListLevelsOfTask().size();
     }
 
     @FXML
     private ProgressBar progressBarTime;
 
     @FXML
-    private AnchorPane anchorPaneButtons;
+    private AnchorPane anchorPaneAnswers;
 
     @FXML
-    private RadioButton buttonAnswer1;
+    private AnchorPane anchorPaneImage;
 
     @FXML
-    private RadioButton buttonAnswer2;
+    private RadioButton buttonImageAnswer1;
 
     @FXML
-    private RadioButton buttonAnswer3;
+    private RadioButton buttonImageAnswer2;
 
     @FXML
-    private RadioButton buttonAnswer4;
+    private RadioButton buttonImageAnswer3;
 
     @FXML
-    private RadioButton buttonAnswer5;
+    private RadioButton buttonImageAnswer4;
 
     @FXML
-    private RadioButton buttonAnswer6;
+    private RadioButton buttonImageAnswer5;
 
     @FXML
-    private RadioButton buttonAnswer7;
+    private RadioButton buttonImageAnswer6;
 
     @FXML
-    private RadioButton buttonAnswer8;
+    private RadioButton buttonImageAnswer7;
 
     @FXML
-    private RadioButton buttonAnswer9;
+    private RadioButton buttonImageAnswer8;
+
+    @FXML
+    private RadioButton buttonImageAnswer9;
+
+    @FXML
+    private AnchorPane anchorPaneText;
+
+    @FXML
+    private RadioButton buttonTextAnswer1;
+
+    @FXML
+    private RadioButton buttonTextAnswer2;
+
+    @FXML
+    private RadioButton buttonTextAnswer3;
+
+    @FXML
+    private RadioButton buttonTextAnswer4;
+
+    @FXML
+    private RadioButton buttonTextAnswer5;
+
+    @FXML
+    private RadioButton buttonTextAnswer6;
+
+    @FXML
+    private RadioButton buttonTextAnswer7;
 
     @FXML
     private SubScene subsceneOne;
@@ -140,23 +166,39 @@ public class LevelController {
     private Label labelTime;
 
     private void setLevel(Integer numberLevel) {
+        TaskLevelModel level = task.getListLevelsOfTask().get(numberLevel-1);
         resetLevel();
+        typeAnswer = level.getTypeAnswer();
         loadLevel();
-        labelCounter.setText((numberLevelOfTask)+"/"+task.getListLevelsOfTask().size());
-        labelTopic.setText(task.getListLevelsOfTask().get(numberLevelOfTask-1).getStringTopic());
-        textAreaTask.setText(task.getListLevelsOfTask().get(numberLevelOfTask-1).getStringTask());
-        setAnswers(task.getListLevelsOfTask().get(numberLevelOfTask-1).getIntegerNumberAnswer());
-        trueAnswer = task.getListLevelsOfTask().get(numberLevelOfTask-1).getIntegerTrueAnswer();
+        labelCounter.setText((numberLevel)+"/"+numberOfLevels);
+        labelTopic.setText(level.getTopicTask());
+        textAreaTask.setText(level.getTextTask());
+        setAnswers(level.getNumberAnswer());
+        trueAnswer = level.getTrueAnswer();
     }
 
     private void loadLevel() {
-        if (mapAnswerInLevels.containsKey(numberLevelOfTask)) {
-            ((RadioButton)anchorPaneButtons.getChildren().get(mapAnswerInLevels.get(numberLevelOfTask)-1)).setSelected(true);
+        if (typeAnswer == 1) {
+            if (mapAnswerInLevels.containsKey(numberLevelOfTask)) {
+                ((RadioButton) anchorPaneText.getChildren().get(mapAnswerInLevels.get(numberLevelOfTask) - 1)).setSelected(true);
+            }
+        }
+        else if (typeAnswer == 2) {
+            if (mapAnswerInLevels.containsKey(numberLevelOfTask)) {
+                ((RadioButton) anchorPaneImage.getChildren().get(mapAnswerInLevels.get(numberLevelOfTask) - 1)).setSelected(true);
+            }
         }
     }
 
     private void resetLevel() {
-        for (Node radioButton : anchorPaneButtons.getChildren()) {
+        anchorPaneText.setVisible(false);
+        anchorPaneImage.setVisible(false);
+        typeAnswer = 0;
+        for (Node radioButton : anchorPaneText.getChildren()) {
+            radioButton.setVisible(false);
+            ((RadioButton) radioButton).setSelected(false);
+        }
+        for (Node radioButton : anchorPaneImage.getChildren()) {
             radioButton.setVisible(false);
             ((RadioButton) radioButton).setSelected(false);
             ((RadioButton) radioButton).setBackground(null);
@@ -164,40 +206,60 @@ public class LevelController {
     }
 
     private void setAnswers(Integer answerCount) {
-        if (answerCount <=3) {
-            anchorPaneButtons.setMaxHeight(180);
-            anchorPaneButtons.setMinHeight(180);
+        ObservableList<Node> buttons = null;
+        if (typeAnswer == 1) {
+            anchorPaneText.setVisible(true);
+            if (answerCount <= 5) {
+                anchorPaneAnswers.setMaxHeight(360);
+                anchorPaneAnswers.setMinHeight(360);
+            } else {
+                anchorPaneAnswers.setMaxHeight(542);
+                anchorPaneAnswers.setMinHeight(542);
+            }
+            buttons = anchorPaneText.getChildren();
+            for (int i = 0; i < answerCount; i++) {
+                RadioButton tempButton = (RadioButton) buttons.get(i);
+                tempButton.setVisible(true);
+                if (task.getListLevelsOfTask().get(numberLevelOfTask - 1).getMasTextAnswer() != null) {
+                    tempButton.setText(task.getListLevelsOfTask().get(numberLevelOfTask - 1).getMasTextAnswer()[i]);
+                }
+            }
         }
-        else if (answerCount <=6) {
-            anchorPaneButtons.setMaxHeight(360);
-            anchorPaneButtons.setMinHeight(360);
-        }
-        else {
-            anchorPaneButtons.setMaxHeight(542);
-            anchorPaneButtons.setMinHeight(542);
-        }
-        ObservableList<Node> buttons = anchorPaneButtons.getChildren();
-        for (int i=0;i<answerCount;i++) {
-            RadioButton tempButton = (RadioButton) buttons.get(i);
-            tempButton.setVisible(true);
-            if (task.getListLevelsOfTask().get(numberLevelOfTask-1).getMasImageViewAnswer() != null) {
-                tempButton.setBackground(new Background
-                        (new BackgroundImage(task.getListLevelsOfTask().get(numberLevelOfTask - 1).getMasImageViewAnswer()[i].getImage(),
-                                BackgroundRepeat.NO_REPEAT,
-                                BackgroundRepeat.NO_REPEAT,
-                                BackgroundPosition.CENTER,
-                                BackgroundSize.DEFAULT)
-                        )
-                );
+        else if (typeAnswer == 2) {
+            anchorPaneImage.setVisible(true);
+            if (answerCount <= 6) {
+                anchorPaneAnswers.setMaxHeight(360);
+                anchorPaneAnswers.setMinHeight(360);
+            } else {
+                anchorPaneAnswers.setMaxHeight(542);
+                anchorPaneAnswers.setMinHeight(542);
+            }
+            buttons = anchorPaneImage.getChildren();
+            for (int i = 0; i < answerCount; i++) {
+                RadioButton tempButton = (RadioButton) buttons.get(i);
+                tempButton.setVisible(true);
+                if (task.getListLevelsOfTask().get(numberLevelOfTask - 1).getMasImageAnswer() != null) {
+                    tempButton.setBackground(new Background
+                            (new BackgroundImage(task.getListLevelsOfTask().get(numberLevelOfTask - 1).getMasImageAnswer()[i].getImage(),
+                                    BackgroundRepeat.NO_REPEAT,
+                                    BackgroundRepeat.NO_REPEAT,
+                                    BackgroundPosition.CENTER,
+                                    BackgroundSize.DEFAULT)
+                            )
+                    );
+                }
             }
         }
     }
+
     @FXML
     void buttonEndAction(ActionEvent event) {
 
     }
+
     double anchorX, anchorY, anchorAngle;
     Rotate rotateX = new Rotate(), rotateY = new Rotate();
+
     @FXML
     void buttonNextAction(ActionEvent event) {
         if (numberLevelOfTask < task.getListLevelsOfTask().size()) {
@@ -242,28 +304,31 @@ public class LevelController {
 
     @FXML
     void initialize() {
+        for (Node tempAncPane : anchorPaneAnswers.getChildren()) {
+            for (Node radioButton : ((AnchorPane)tempAncPane).getChildren()) {
+                ((RadioButton) radioButton).setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                        int idButton = Integer.parseInt(((RadioButton) event.getSource()).getId().replaceAll("[^0-9]", ""));
+                        for (Node tempAncPane : anchorPaneAnswers.getChildren()) {
+                            for (Node tempButton : ((AnchorPane)tempAncPane).getChildren()) {
+                                ((RadioButton) tempButton).setSelected(false);
+                            }
+                        }
+                        ((RadioButton) event.getSource()).setSelected(true);
+                        //TODO: перенести валидацию ответов в завершение задания и получение результатов
+                        if (idButton == trueAnswer) {
+                            mapTrueAnswerOnLevels.put(numberLevelOfTask, true);
+                        } else {
+                            mapTrueAnswerOnLevels.put(numberLevelOfTask, false);
+                        }
+                        mapAnswerInLevels.put(numberLevelOfTask, idButton);
+                    }
+                });
+            }
+        }
         numberLevelOfTask = 1;
         setLevel(numberLevelOfTask);
-        for (Node radioButton : anchorPaneButtons.getChildren()) {
-            ((RadioButton)radioButton).setOnAction(new EventHandler<ActionEvent>() {
-                @Override public void handle(ActionEvent event) {
-                    Integer idButton = Integer.valueOf(((RadioButton)event.getSource()).getId().replaceAll("[^0-9]", ""));
-                    for (Node tempButton : anchorPaneButtons.getChildren()) {
-                        if (idButton > task.getListLevelsOfTask().get(numberLevelOfTask-1).getIntegerNumberAnswer()) {break;}
-                        ((RadioButton)tempButton).setSelected(false);
-                    }
-                    ((RadioButton)event.getSource()).setSelected(true);
-                    //TODO: перенести валидацию ответов в завершение задания и получение результатов
-                    if (idButton == trueAnswer) {
-                        mapTrueAnswerOnLevels.put(numberLevelOfTask, true);
-                    }
-                    else {
-                        mapTrueAnswerOnLevels.put(numberLevelOfTask, false);
-                    }
-                    mapAnswerInLevels.put(numberLevelOfTask, idButton);
-                }
-            });
-        }
     }
 
 }
