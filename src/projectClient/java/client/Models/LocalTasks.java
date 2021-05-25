@@ -33,9 +33,9 @@ public class LocalTasks extends Thread{
                 "Answer Six is here!",
                 "Answer Seven is here!"
         };
-        taskKR1.addLevelInTask(new TaskLevelModel("LOCAL TASK ONE","DESCRIPTION LOCAL TASK 1", 5, 2, null , masText, null,1));
-        taskKR1.addLevelInTask(new TaskLevelModel("LOCAL TASK TWO","DESCRIPTION LOCAL TASK 2", 2, 1, masImage, null, null, 2));
-        taskKR1.addLevelInTask(new TaskLevelModel("LOCAL TASK THREE","DESCRIPTION LOCAL TASK 3", 7, 5, null, masText2, null, 1));
+        taskKR1.addLevelInTask(new TaskLevelModel("LOCAL TASK ONE","DESCRIPTION LOCAL TASK 1", 5, 2, null , masText, "Task1.jpg",1));
+        taskKR1.addLevelInTask(new TaskLevelModel("LOCAL TASK TWO","DESCRIPTION LOCAL TASK 2", 2, 1, masImage, null, "Task1.jpg", 2));
+        taskKR1.addLevelInTask(new TaskLevelModel("LOCAL TASK THREE","DESCRIPTION LOCAL TASK 3", 7, 5, null, masText2, "Task1.jpg", 1));
         listTask.put("KR1", taskKR1);
     }
 

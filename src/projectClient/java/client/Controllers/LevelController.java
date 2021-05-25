@@ -2,11 +2,23 @@ package client.Controllers;
 
 import client.Models.Task;
 import client.Models.TaskLevelModel;
+import com.aspose.cad.ImageOptionsBase;
+import com.aspose.cad.fileformats.cad.CadDrawTypeMode;
+import com.aspose.cad.fileformats.cad.CadImage;
+import com.aspose.cad.imageoptions.CadRasterizationOptions;
+import com.aspose.cad.imageoptions.PenOptions;
+import com.aspose.cad.imageoptions.PngOptions;
+import com.aspose.cad.internal.imaging.LineCap;
+import com.aspose.cad.system.io.Stream;
+import com.aspose.cad.system.io.StreamReader;
 import com.interactivemesh.jfx.importer.stl.StlMeshImporter;
+import com.sun.xml.internal.ws.api.message.stream.InputStreamMessage;
 import javafx.collections.ObservableList;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.PerspectiveCamera;
@@ -16,12 +28,25 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Mesh;
 import javafx.scene.shape.MeshView;
 import javafx.scene.transform.Rotate;
-import java.io.File;
+
+import javax.imageio.ImageIO;
+import javax.imageio.ImageReader;
+import javax.imageio.stream.ImageInputStream;
+import javax.imageio.stream.ImageOutputStream;
+import java.awt.image.BufferedImage;
+import java.io.*;
 import java.util.*;
+
+import static com.sun.deploy.trace.Trace.flush;
 
 public class LevelController {
 
@@ -32,9 +57,11 @@ public class LevelController {
     private Integer trueAnswer = 0;
     private Integer typeAnswer = 0;
     private static Integer numberOfLevels = 0;
+    private static Group group = null;
+    private static Map<String, Integer> formats3D = new HashMap<>();
 
-    private static final String MESH_FILENAME =
-            "/Users/Shyr_NS/IdeaProjects/SECG/src/projectClient/resources/TaskRes/3dModels/Besenhalter_325mm.stl";
+    private static String MESH_FILENAME = "/Users/Shyr_NS/IdeaProjects/SECG/src/projectClient/resources/TaskRes/3dModels/";
+    private static String MESH_FILENAME2D = "/TaskRes/2dModels/";
 
     private static final double MODEL_SCALE_FACTOR = 3;
     private static final double MODEL_X_OFFSET = 0; // standard
@@ -44,8 +71,8 @@ public class LevelController {
     MeshView[] meshViews;
     private Group root;
 
-    static MeshView[] loadMeshViews() {
-        File file = new File(MESH_FILENAME);
+    static MeshView[] loadMeshViews(String mesh_filename) {
+        File file = new File(mesh_filename);
         StlMeshImporter importer = new StlMeshImporter();
         importer.read(file);
         Mesh mesh = importer.getImport();
@@ -53,8 +80,8 @@ public class LevelController {
         return new MeshView[] { new MeshView(mesh) };
     }
 
-    private Group buildScene() {
-        meshViews = loadMeshViews();
+    private Group buildScene(String mesh_filename) {
+        meshViews = loadMeshViews(mesh_filename);
         for (int i = 0; i < meshViews.length; i++) {
             meshViews[i].setScaleX(MODEL_SCALE_FACTOR);
             meshViews[i].setScaleY(MODEL_SCALE_FACTOR);
@@ -169,31 +196,103 @@ public class LevelController {
         TaskLevelModel level = task.getListLevelsOfTask().get(numberLevel-1);
         resetLevel();
         typeAnswer = level.getTypeAnswer();
-        loadLevel();
-        labelCounter.setText((numberLevel)+"/"+numberOfLevels);
-        labelTopic.setText(level.getTopicTask());
-        textAreaTask.setText(level.getTextTask());
+        loadSavesAnswer();
+        setTaskOnScreen(level, numberLevel);
         setAnswers(level.getNumberAnswer());
         trueAnswer = level.getTrueAnswer();
     }
 
-    private void loadLevel() {
-        if (typeAnswer == 1) {
-            if (mapAnswerInLevels.containsKey(numberLevelOfTask)) {
-                ((RadioButton) anchorPaneText.getChildren().get(mapAnswerInLevels.get(numberLevelOfTask) - 1)).setSelected(true);
+    private void setTaskOnScreen(TaskLevelModel level, Integer numberLevel) {
+        labelCounter.setText((numberLevel)+"/"+numberOfLevels);
+        labelTopic.setText(level.getTopicTask());
+        textAreaTask.setText(level.getTextTask());
+        if (level.getMeshFilename() != null) {
+            if (checkFormat(level.getMeshFilename().split("\\.")[1]) == 2) {
+                try { load3DTaskDWG(level.getMeshFilename()); } catch (IOException e) { e.printStackTrace();
+                }
             }
+            else if (checkFormat(level.getMeshFilename().split("\\.")[1]) == 1)
+                load3DTask(level.getMeshFilename());
+            else
+                load2dTask(level.getMeshFilename());
         }
-        else if (typeAnswer == 2) {
-            if (mapAnswerInLevels.containsKey(numberLevelOfTask)) {
-                ((RadioButton) anchorPaneImage.getChildren().get(mapAnswerInLevels.get(numberLevelOfTask) - 1)).setSelected(true);
-            }
+    }
+
+    private void load2dTask(String meshFilename) {
+        AnchorPane root = new AnchorPane();
+        root.getChildren().addAll(new ImageView(new Image(MESH_FILENAME2D+meshFilename)));
+        subsceneOne.setRoot(root);
+    }
+
+    private void loadSavesAnswer() {
+        AnchorPane tempAncPane = null;
+        if (typeAnswer == 1)
+            tempAncPane = anchorPaneText;
+        else if (typeAnswer == 2)
+            tempAncPane = anchorPaneImage;
+        if (mapAnswerInLevels.containsKey(numberLevelOfTask)) {
+            ((RadioButton) tempAncPane.getChildren().get(mapAnswerInLevels.get(numberLevelOfTask) - 1)).setSelected(true);
         }
+    }
+
+    private Integer checkFormat(String format) { // 1-DWG and others, 2-STL and others, 3 ELSE
+        return formats3D.getOrDefault(format, 3);
+    }
+
+    private void createFormatMap() {
+        formats3D.put("3ds", 1);
+        formats3D.put("dae", 1);
+        formats3D.put("zae", 1);
+        formats3D.put("fxml", 1);
+        formats3D.put("obj", 1);
+        formats3D.put("stl", 1);
+        formats3D.put("x3d", 1);
+        formats3D.put("x3dz", 1);
+
+        formats3D.put("dwg", 2);
+        formats3D.put("dxf", 2);
+        formats3D.put("dwf", 2);
+        formats3D.put("dgn", 2);
+        formats3D.put("ifc", 2);
+    }
+
+    private void load3DTask(String filename) {
+        String mesh_filename = MESH_FILENAME + filename;
+        group = buildScene(mesh_filename);
+        subsceneOne.setRoot(group);
+        subsceneOne.setFill(Color.rgb(10, 10, 40));
+        addCamera(subsceneOne);
+    }
+
+    private void load3DTaskDWG(String filename) throws IOException {
+        com.aspose.cad.Image img = com.aspose.cad.Image.load(MESH_FILENAME+filename);
+        CadRasterizationOptions rasterizationOptions = new CadRasterizationOptions();
+        rasterizationOptions.setPageWidth(600);
+        rasterizationOptions.setPageHeight(600);
+        rasterizationOptions.setDrawColor(com.aspose.cad.Color.getRed());
+        ImageOptionsBase options = new PngOptions();
+        options.setVectorRasterizationOptions(rasterizationOptions);
+
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        img.save(outputStream, options);
+        ImageOutputStream ios = ImageIO.createImageOutputStream(outputStream);
+        byte[] bytes = outputStream.toByteArray();
+        InputStream inputStream = new ByteArrayInputStream(bytes);
+        ImageInputStream in = ImageIO.createImageInputStream(inputStream);
+        BufferedImage image = ImageIO.read(in);
+        Image img2 = SwingFXUtils.toFXImage(image, null);
+        FlowPane root = new FlowPane();
+        root.setPadding(new Insets(20));
+        root.getChildren().addAll(new ImageView(img2));
+        subsceneOne.setRoot(root);
     }
 
     private void resetLevel() {
         anchorPaneText.setVisible(false);
         anchorPaneImage.setVisible(false);
         typeAnswer = 0;
+        subsceneOne.setRoot(new Group());
+        System.gc();
         for (Node radioButton : anchorPaneText.getChildren()) {
             radioButton.setVisible(false);
             ((RadioButton) radioButton).setSelected(false);
@@ -276,34 +375,11 @@ public class LevelController {
             setLevel(numberLevelOfTask);
         }
         else {}
-/*        Group group = buildScene();
-        subsceneOne.setRoot(group);
-        subsceneOne.setFill(Color.rgb(10, 10, 40));
-        subsceneOne.setOnMousePressed(new EventHandler<MouseEvent>() {
-            @Override public void handle(MouseEvent event) {
-                anchorX = event.getSceneX();
-                anchorY = event.getSceneY();
-                anchorAngle = group.getRotate();
-            }
-        });
-        subsceneOne.setOnMouseDragged(new EventHandler<MouseEvent>() {
-            @Override public void handle(MouseEvent event) {
-                if (event.getButton().equals(MouseButton.PRIMARY)) {
-                    rotateY = new Rotate(rotateY.getAngle() + (anchorX - event.getSceneX())/10, Rotate.Y_AXIS);
-                    rotateX = new Rotate(rotateX.getAngle() + (anchorY - event.getSceneY())/10, Rotate.X_AXIS);
-                    group.getTransforms().setAll(rotateY, rotateX);
-                }
-                else {
-                    group.setLayoutX(group.getLayoutX() + (anchorX - event.getSceneX())/5);
-                    group.setLayoutY(group.getLayoutY() + (anchorY - event.getSceneY())/5);
-                }
-            }
-        });
-        addCamera(subsceneOne);*/
     }
 
     @FXML
     void initialize() {
+        createFormatMap();
         for (Node tempAncPane : anchorPaneAnswers.getChildren()) {
             for (Node radioButton : ((AnchorPane)tempAncPane).getChildren()) {
                 ((RadioButton) radioButton).setOnAction(new EventHandler<ActionEvent>() {
@@ -329,6 +405,27 @@ public class LevelController {
         }
         numberLevelOfTask = 1;
         setLevel(numberLevelOfTask);
+
+        subsceneOne.setOnMousePressed(new EventHandler<MouseEvent>() {
+            @Override public void handle(MouseEvent event) {
+                anchorX = event.getSceneX();
+                anchorY = event.getSceneY();
+                anchorAngle = group.getRotate();
+            }
+        });
+        subsceneOne.setOnMouseDragged(new EventHandler<MouseEvent>() {
+            @Override public void handle(MouseEvent event) {
+                if (event.getButton().equals(MouseButton.PRIMARY)) {
+                    rotateY = new Rotate(rotateY.getAngle() + (anchorX - event.getSceneX())/10, Rotate.Y_AXIS);
+                    rotateX = new Rotate(rotateX.getAngle() + (anchorY - event.getSceneY())/10, Rotate.X_AXIS);
+                    group.getTransforms().setAll(rotateY, rotateX);
+                }
+                else {
+                    group.setLayoutX(group.getLayoutX() + (anchorX - event.getSceneX())/5);
+                    group.setLayoutY(group.getLayoutY() + (anchorY - event.getSceneY())/5);
+                }
+            }
+        });
     }
 
 }
