@@ -59,4 +59,18 @@ public class WorkWithServer {
         }
         return res;
     }
+
+    public static Integer auth(String login, String pass) {
+        Integer res = null;
+        try {
+            coos.writeObject("auth");
+            coos.writeObject(login);
+            coos.writeObject(pass);
+            res = (Integer) cois.readObject();
+            coos.writeObject("exit");
+        } catch (IOException | ClassNotFoundException e) {
+            System.out.println("Server if offline");
+        }
+        return res;
+    }
 }

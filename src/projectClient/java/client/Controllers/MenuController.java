@@ -23,6 +23,8 @@ package client.Controllers;
 
         import java.io.IOException;
 
+        import static javafx.stage.Modality.APPLICATION_MODAL;
+
 public class MenuController {
     private double xOffset;
     private double yOffset;
@@ -55,6 +57,7 @@ public class MenuController {
     void buttonAuthAction(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("Models/AuthFrame.fxml"));
         Stage authStage = new Stage();
+        authStage.initModality(APPLICATION_MODAL);
         authStage.initStyle(StageStyle.UNDECORATED);
         authStage.initStyle(StageStyle.TRANSPARENT);
         authStage.setTitle("Authentication");
