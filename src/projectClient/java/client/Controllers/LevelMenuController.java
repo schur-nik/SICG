@@ -18,6 +18,14 @@ public class LevelMenuController {
     @FXML
     private AnchorPane anchorPaneLocalTasks;
 
+    @FXML
+    private Button buttonBack;
+
+    @FXML
+    void buttonBackAction(ActionEvent event) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("Models/MenuFrame.fxml"));
+        buttonBack.getScene().setRoot(root);
+    }
 
     @FXML
     void initialize() {
@@ -36,7 +44,7 @@ public class LevelMenuController {
                     try {
                         root = FXMLLoader.load(getClass().getClassLoader().getResource("Models/LevelFrame.fxml"));
                     } catch (IOException e) {
-                        e.printStackTrace();
+                        System.out.println("Error: Level not found");
                     }
                     anchorPaneLocalTasks.getScene().setRoot(root);
                 }

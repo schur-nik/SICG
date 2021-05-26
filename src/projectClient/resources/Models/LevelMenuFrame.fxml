@@ -4,6 +4,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.effect.Bloom?>
 <?import javafx.scene.effect.Glow?>
+<?import javafx.scene.effect.InnerShadow?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
@@ -123,6 +124,14 @@
             </Button>
          </children>
       </AnchorPane>
+      <Button fx:id="buttonBack" layoutX="1121.0" layoutY="668.0" maxHeight="60.0" maxWidth="250.0" minHeight="55.0" minWidth="115.0" mnemonicParsing="false" onAction="#buttonBackAction" prefHeight="55.0" prefWidth="115.0" style="-fx-background-color: #2E3348; -fx-background-radius: 10;" text="BACK" textFill="WHITE" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="20.0">
+         <font>
+            <Font name="Impact" size="28.0" />
+         </font>
+         <effect>
+            <InnerShadow />
+         </effect>
+      </Button>
       <Label layoutX="214.0" layoutY="123.0" text="BD TASKS" />
 </children>
 </AnchorPane>

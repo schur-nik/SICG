@@ -1,6 +1,8 @@
 package client.Controllers;
 
+import client.Models.User;
 import client.WorkWithServer;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -10,6 +12,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.lang.reflect.Field;
+import java.util.Map;
 
 public class AuthController {
 
@@ -49,11 +52,13 @@ public class AuthController {
         if (fieldLogin.getText().length() != 0 && fieldPassword.getText().length() >= 5) {
             Integer answerServerOnAuth = 0;
             try {
-                answerServerOnAuth = WorkWithServer.auth(fieldLogin.getText(), fieldPassword.getText());
+                answerServerOnAuth = WorkWithServer.auth(Integer.toString(fieldLogin.getText().hashCode()) + Integer.toString(fieldPassword.getText().hashCode()));
             }
             catch (NullPointerException e) {System.out.println("ERROR: Server is offline");}
             if (answerServerOnAuth == 1) {
-
+                Object[] masUserData = WorkWithServer.getUserData(User.getToken());
+                User.setUserData((String)masUserData[0], (Integer)masUserData[1], (Map<String, Boolean>) masUserData[2]);
+                ((Stage)fieldLogin.getScene().getWindow()).close();
             }
             else if (answerServerOnAuth == 2) {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);

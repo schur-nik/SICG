@@ -1,10 +1,14 @@
 package client;
 
 import client.Models.Task;
+import client.Models.User;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.HashMap;
+import java.util.Map;
 
 public class WorkWithServer {
     private static ObjectOutputStream coos;
@@ -60,17 +64,35 @@ public class WorkWithServer {
         return res;
     }
 
-    public static Integer auth(String login, String pass) {
+    public static Integer auth(String hashLP) {
         Integer res = null;
-        try {
+/*        try {
             coos.writeObject("auth");
-            coos.writeObject(login);
-            coos.writeObject(pass);
+            coos.writeObject(hashLP);
             res = (Integer) cois.readObject();
-            coos.writeObject("exit");
+            if (res == 1) User.setToken((String)cois.readObject());*/
+            res = 1;
+            User.setToken("666");
+/*            coos.writeObject("exit");
         } catch (IOException | ClassNotFoundException e) {
             System.out.println("Server if offline");
-        }
+        }*/
+        return res;
+    }
+
+    public static Object[] getUserData(String token) {
+        Object[] res = null;
+/*        try {
+            coos.writeObject("getUserData");
+            coos.writeObject(token);
+            res = (Object[]) cois.readObject();
+            coos.writeObject("exit");*/
+            Map<String, Boolean> map = new HashMap<String, Boolean>();
+            map.put("KR1", true);
+            res = new Object[]{"Schur", 1, map};
+/*        } catch (IOException | ClassNotFoundException e) {
+            System.out.println("Server if offline");
+        }*/
         return res;
     }
 }
