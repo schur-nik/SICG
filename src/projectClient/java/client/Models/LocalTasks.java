@@ -2,8 +2,6 @@ package client.Models;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 

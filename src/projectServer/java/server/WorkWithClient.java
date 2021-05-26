@@ -27,11 +27,12 @@ class WorkWithClient implements Runnable
         }*/
         try {
             String clientMessageRecieved = (String) sois.readObject();
-            while (!clientMessageRecieved.equals("0")){
+            while (!clientMessageRecieved.equals("exit")){
                 System.out.println("clients message: " + clientMessageRecieved);
                 switch (clientMessageRecieved){
-                    case "test1": {
-                        System.out.println("NEW SERVER READY");
+                    case "test": {
+                        System.out.println(sois.readObject());
+                        soos.writeObject("all ok");
                     }
                 }
                 clientMessageRecieved = (String) sois.readObject();
