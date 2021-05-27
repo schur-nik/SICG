@@ -112,8 +112,8 @@ public class MenuController {
     @FXML
     void initialize() {
         BorderPane pane = new BorderPane();
-        pane.setBackground(new Background(new BackgroundFill(Color.rgb(0, 0, 0), CornerRadii.EMPTY, Insets.EMPTY)));
-        pane.setCenter(new ImageView(new Image("TaskRes/Images/MenuImages/40iG.gif", 745, 560, true, false)));
+        pane.setStyle("-fx-background-radius: 10; -fx-background-color: BLACK");
+        pane.setCenter(new ImageView(new Image("TaskRes/Images/MenuImages/40iG.gif", 740, 550, true, false)));
         subsceneOne.setRoot(pane);
         if (User.getUserName() != null)
             buttonAuth.setText("Profile");

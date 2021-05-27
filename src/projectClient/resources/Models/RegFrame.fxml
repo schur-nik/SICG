@@ -11,38 +11,30 @@
 
 <AnchorPane maxHeight="500.0" maxWidth="400.0" minHeight="500.0" minWidth="400.0" prefHeight="500.0" prefWidth="400.0" style="-fx-background-color: #2E3348; -fx-border-color: #999999; -fx-border-radius: 10; -fx-background-radius: 10; -fx-border-width: 4;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.Controllers.RegController">
    <children>
-      <Button fx:id="buttonAuthExit" contentDisplay="CENTER" ellipsisString="X" graphicTextGap="0.0" layoutX="376.0" layoutY="-1.0" maxHeight="25.0" maxWidth="25.0" minHeight="25.0" minWidth="25.0" mnemonicParsing="false" onAction="#buttonAuthExitAction" prefHeight="25.0" prefWidth="25.0" style="-fx-background-radius: 55; -fx-border-color: #000000; -fx-background-color: #999999; -fx-border-radius: 8;" text="X" textAlignment="CENTER" textFill="RED" wrapText="true">
+      <Button fx:id="buttonRegExit" contentDisplay="CENTER" ellipsisString="X" graphicTextGap="0.0" layoutX="376.0" layoutY="-1.0" maxHeight="25.0" maxWidth="25.0" minHeight="25.0" minWidth="25.0" mnemonicParsing="false" onAction="#buttonRegExitAction" prefHeight="25.0" prefWidth="25.0" style="-fx-background-radius: 55; -fx-border-color: #000000; -fx-background-color: #999999; -fx-border-radius: 8;" text="X" textAlignment="CENTER" textFill="RED" wrapText="true">
          <font>
             <Font name="Arial Bold" size="12.0" />
          </font>
       </Button>
-      <Button fx:id="buttonLogin" layoutX="82.0" layoutY="327.0" maxHeight="60.0" maxWidth="250.0" minHeight="60.0" minWidth="250.0" mnemonicParsing="false" onAction="#buttonLoginAction" prefHeight="60.0" prefWidth="250.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 10;" text="LOG IN" textFill="#2e3348">
+      <Button fx:id="buttonRegDone" layoutX="82.0" layoutY="386.0" maxHeight="60.0" maxWidth="302.0" minHeight="39.0" minWidth="216.0" mnemonicParsing="false" onAction="#buttonRegDoneAction" prefHeight="39.0" prefWidth="251.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 10;" text="Зарегистрироваться" textFill="#2e3348">
          <font>
-            <Font name="Yu Gothic Bold" size="33.0" />
+            <Font name="Impact" size="21.0" />
          </font>
          <effect>
             <InnerShadow />
          </effect>
       </Button>
-      <Button fx:id="buttonReg" layoutX="99.0" layoutY="402.0" maxHeight="60.0" maxWidth="302.0" minHeight="39.0" minWidth="216.0" mnemonicParsing="false" onAction="#buttonRegAction" prefHeight="39.0" prefWidth="216.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 10;" text="Регистрация" textFill="#2e3348">
-         <font>
-            <Font name="Arial Italic" size="20.0" />
-         </font>
-         <effect>
-            <InnerShadow />
-         </effect>
-      </Button>
-      <TextField fx:id="fieldLogin" layoutX="78.0" layoutY="168.0" prefHeight="48.0" prefWidth="257.0" promptText="LOGIN">
+      <TextField fx:id="fieldLogin" layoutX="79.0" layoutY="98.0" prefHeight="45.0" prefWidth="257.0" promptText="Введите логин" AnchorPane.topAnchor="90.0">
          <font>
             <Font size="16.0" />
          </font>
       </TextField>
-      <PasswordField fx:id="fieldPassword" layoutX="78.0" layoutY="236.0" prefHeight="48.0" prefWidth="257.0" promptText="PASSWORD">
+      <PasswordField fx:id="fieldPassword" layoutX="79.0" layoutY="277.0" prefHeight="45.0" prefWidth="257.0" promptText="Введите пароль" AnchorPane.topAnchor="255.0">
          <font>
             <Font size="16.0" />
          </font>
       </PasswordField>
-      <Label fx:id="labelGreeting" layoutX="92.0" layoutY="85.0" text="Hello, user!" textFill="WHITE">
+      <Label fx:id="labelGreeting" layoutX="57.0" layoutY="31.0" text="Регистрация" textFill="WHITE">
          <font>
             <Font name="Arial Bold Italic" size="42.0" />
          </font>
@@ -54,5 +46,28 @@
             </InnerShadow>
          </effect>
       </Label>
+      <PasswordField fx:id="fieldPasswordCheck" layoutX="79.0" layoutY="335.0" prefHeight="45.0" prefWidth="257.0" promptText="Повторите ввод пароля" AnchorPane.topAnchor="310.0">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </PasswordField>
+      <TextField fx:id="fieldName" layoutX="79.0" layoutY="160.0" prefHeight="45.0" prefWidth="257.0" promptText="Введите ваше имя" AnchorPane.topAnchor="145.0">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </TextField>
+      <TextField fx:id="fieldSurname" layoutX="79.0" layoutY="220.0" prefHeight="45.0" prefWidth="257.0" promptText="Введите вашу фамилию" AnchorPane.topAnchor="200.0">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </TextField>
+      <Button fx:id="buttonRegBack" layoutX="155.0" layoutY="438.0" maxHeight="60.0" maxWidth="302.0" minHeight="39.0" minWidth="105.0" mnemonicParsing="false" onAction="#buttonRegBackAction" prefHeight="39.0" prefWidth="105.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 10;" text="Назад" textFill="#2e3348">
+         <font>
+            <Font name="Impact" size="21.0" />
+         </font>
+         <effect>
+            <InnerShadow />
+         </effect>
+      </Button>
    </children>
 </AnchorPane>

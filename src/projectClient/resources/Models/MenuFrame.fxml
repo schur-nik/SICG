@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.effect.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.SubScene?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.Bloom?>
+<?import javafx.scene.effect.Glow?>
+<?import javafx.scene.effect.InnerShadow?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="745.0" maxWidth="1250.0" minHeight="745.0" minWidth="1250.0" prefHeight="745.0" prefWidth="1250.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.Controllers.MenuController">
+<AnchorPane maxHeight="745.0" maxWidth="1250.0" minHeight="745.0" minWidth="1250.0" prefHeight="745.0" prefWidth="1250.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.Controllers.MenuController">
    <children>
       <AnchorPane maxHeight="100.0" maxWidth="1250.0" minHeight="100.0" minWidth="1250.0" prefHeight="100.0" prefWidth="1250.0" style="-fx-background-color: #2E3348;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -59,9 +63,9 @@
             </Button>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="anchorPaneSubscene" layoutX="450.0" layoutY="126.0" maxHeight="565.0" maxWidth="750.0" minHeight="565.0" minWidth="750.0" prefHeight="565.0" prefWidth="750.0" style="-fx-border-color: #2E3348; -fx-border-width: 3; -fx-background-color: black;" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="440.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="140.0">
+      <AnchorPane fx:id="anchorPaneSubscene" layoutX="450.0" layoutY="126.0" maxHeight="565.0" maxWidth="750.0" minHeight="565.0" minWidth="750.0" prefHeight="565.0" prefWidth="750.0" style="-fx-border-color: #2E3348; -fx-border-width: 3; -fx-background-color: #000000; -fx-border-radius: 10; -fx-background-radius: 10;" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="440.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="140.0">
          <children>
-            <SubScene fx:id="subsceneOne" height="559.0" width="750.0" AnchorPane.bottomAnchor="2.0" AnchorPane.leftAnchor="2.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <SubScene fx:id="subsceneOne" fill="BLACK" height="555.0" layoutX="8.0" layoutY="5.0" width="745.0" AnchorPane.bottomAnchor="2.0" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="4.0" AnchorPane.topAnchor="2.0">
               <root>
                 <Region />
               </root>

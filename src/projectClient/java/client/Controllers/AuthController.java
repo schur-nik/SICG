@@ -2,19 +2,27 @@ package client.Controllers;
 
 import client.Models.User;
 import client.WorkWithServer;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Group;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.Border;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
-import java.lang.reflect.Field;
+import java.io.IOException;
 import java.util.Map;
 
+import static javafx.stage.Modality.APPLICATION_MODAL;
+
 public class AuthController {
+    private double xOffset;
+    private double yOffset;
 
     @FXML
     private Button buttonAuthExit;
@@ -80,8 +88,27 @@ public class AuthController {
     }
 
     @FXML
-    void buttonRegAction(ActionEvent event) {
-
+    void buttonRegAction(ActionEvent event) throws IOException {
+            Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("Models/RegFrame.fxml"));
+            Stage regStage = (Stage)buttonReg.getScene().getWindow();
+            regStage.setTitle("Registration");
+            Scene regScene = new Scene(root);
+            regScene.setFill(Color.TRANSPARENT);
+            regScene.setOnMousePressed(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    xOffset = regStage.getX() - event.getScreenX();
+                    yOffset = regStage.getY() - event.getScreenY();
+                }
+            });
+            regScene.setOnMouseDragged(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    regStage.setX(event.getScreenX() + xOffset);
+                    regStage.setY(event.getScreenY() + yOffset);
+                }
+            });
+            regStage.setScene(regScene);
     }
 
 }
