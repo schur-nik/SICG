@@ -1,29 +1,27 @@
 package client.Controllers;
 
-        import client.Models.User;
-        import javafx.application.Platform;
-        import javafx.event.ActionEvent;
-        import javafx.event.EventHandler;
-        import javafx.fxml.FXML;
-        import javafx.fxml.FXMLLoader;
-        import javafx.geometry.Insets;
-        import javafx.scene.Group;
-        import javafx.scene.Parent;
-        import javafx.scene.Scene;
-        import javafx.scene.SubScene;
-        import javafx.scene.control.Button;
-        import javafx.scene.control.Label;
-        import javafx.scene.image.Image;
-        import javafx.scene.image.ImageView;
-        import javafx.scene.input.MouseEvent;
-        import javafx.scene.layout.*;
-        import javafx.scene.paint.Color;
-        import javafx.stage.Stage;
-        import javafx.stage.StageStyle;
+import client.Models.User;
+import javafx.application.Platform;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.SubScene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
-        import java.io.IOException;
+import java.io.IOException;
 
-        import static javafx.stage.Modality.APPLICATION_MODAL;
+import static javafx.stage.Modality.APPLICATION_MODAL;
 
 public class MenuController {
     private double xOffset;
@@ -87,9 +85,8 @@ public class MenuController {
             authStage.show();
         }
         else {
-            Stage profileStage = new Stage();
-            profileStage.setScene(new Scene(new Group()));
-            profileStage.show();
+            Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("Models/StatFrame.fxml"));
+            buttonAuth.getScene().setRoot(root);
         }
     }
 

@@ -3,16 +3,9 @@ package client.Controllers;
 import client.Models.Task;
 import client.Models.TaskLevelModel;
 import com.aspose.cad.ImageOptionsBase;
-import com.aspose.cad.fileformats.cad.CadDrawTypeMode;
-import com.aspose.cad.fileformats.cad.CadImage;
 import com.aspose.cad.imageoptions.CadRasterizationOptions;
-import com.aspose.cad.imageoptions.PenOptions;
 import com.aspose.cad.imageoptions.PngOptions;
-import com.aspose.cad.internal.imaging.LineCap;
-import com.aspose.cad.system.io.Stream;
-import com.aspose.cad.system.io.StreamReader;
 import com.interactivemesh.jfx.importer.stl.StlMeshImporter;
-import com.sun.xml.internal.ws.api.message.stream.InputStreamMessage;
 import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
@@ -35,16 +28,12 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Mesh;
 import javafx.scene.shape.MeshView;
 import javafx.scene.transform.Rotate;
-
 import javax.imageio.ImageIO;
-import javax.imageio.ImageReader;
 import javax.imageio.stream.ImageInputStream;
 import javax.imageio.stream.ImageOutputStream;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.*;
-
-import static com.sun.deploy.trace.Trace.flush;
 
 public class LevelController {
 
