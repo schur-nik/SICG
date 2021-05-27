@@ -64,6 +64,17 @@ public class WorkWithServer {
         return res;
     }
 
+    public static Map<String, Task> getListTasksFromBd() {
+        HashMap<String, Task> res = new HashMap<String, Task>();
+/*        try {
+            coos.writeObject("getListTasksFromBd");
+            res = (HashMap<String, Task>) cois.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }*/
+        return res;
+    }
+
     public static Integer auth(String hashLP) {
         Integer res = null;
 /*        try {

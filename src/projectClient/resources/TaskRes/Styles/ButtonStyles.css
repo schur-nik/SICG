@@ -1,0 +1,12 @@
+#buttonLevelMenuStyle {
+    -fx-pref-height : 50.0;
+    -fx-pref-width : 240.0;
+    -fx-max-height : 50.0;
+    -fx-max-width : 240.0;
+    -fx-min-height : 50.0;
+    -fx-min-width : 240.0;
+    -fx-text-fill : #2e3347;
+    -fx-font-family: Impact;
+    -fx-font-size: 14;
+    -fx-wrap-text: true;
+}

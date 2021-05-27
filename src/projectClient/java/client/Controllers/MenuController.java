@@ -79,7 +79,8 @@ public class MenuController {
                 }
             });
             authStage.setOnHidden(e -> {
-                buttonAuth.setText("Profile");
+                if (User.getUserName() != null)
+                    buttonAuth.setText("Profile");
             });
             authStage.setScene(authScene);
             authStage.setResizable(false);
