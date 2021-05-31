@@ -55,7 +55,7 @@ public class LevelController {
     private static final double MODEL_Y_OFFSET = 0; // standard
 
     private static final int VIEWPORT_SIZE = 600;
-    MeshView[] meshViews;
+    private MeshView[] meshViews;
     private Group root;
 
     static MeshView[] loadMeshViews(String mesh_filename) {

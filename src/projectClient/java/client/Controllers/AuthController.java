@@ -44,14 +44,7 @@ public class AuthController {
 
     @FXML
     void buttonLoginAction(ActionEvent event) {
-        if (fieldLogin.getText().length() == 0)
-            fieldLogin.setStyle("-fx-border-color: RED; -fx-border-width: 2");
-        else
-            fieldLogin.setStyle("-fx-border-color: NULL; -fx-border-width: 0");
-        if (fieldPassword.getText().length() < 5)
-            fieldPassword.setStyle("-fx-border-color: RED; -fx-border-width: 2");
-        else
-            fieldPassword.setStyle("-fx-border-color: NULL; -fx-border-width: 0");
+        setStyleFields();
         if (fieldLogin.getText().length() != 0 && fieldPassword.getText().length() >= 5) {
             Integer answerServerOnAuth = 0;
             try {
@@ -80,6 +73,17 @@ public class AuthController {
                 alert.showAndWait();
             }
         }
+    }
+
+    private void setStyleFields() {
+        if (fieldLogin.getText().length() == 0)
+            fieldLogin.setStyle("-fx-border-color: RED; -fx-border-width: 2");
+        else
+            fieldLogin.setStyle("-fx-border-color: NULL; -fx-border-width: 0");
+        if (fieldPassword.getText().length() < 5)
+            fieldPassword.setStyle("-fx-border-color: RED; -fx-border-width: 2");
+        else
+            fieldPassword.setStyle("-fx-border-color: NULL; -fx-border-width: 0");
     }
 
     @FXML

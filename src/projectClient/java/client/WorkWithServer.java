@@ -91,6 +91,24 @@ public class WorkWithServer {
         return res;
     }
 
+/*    public static Integer auth(String hashLP) {
+        connectToServer();
+        Integer res = null;
+        try {
+            coos.writeObject("auth");
+            coos.writeObject(hashLP);
+            res = (Integer) cois.readObject();
+            if (res == 1) User.setToken((String)cois.readObject());
+            coos.writeObject("exit");
+        } catch (IOException | ClassNotFoundException e) {
+            System.out.println("Server if offline");
+        }
+        finally {
+            connectClose();
+        }
+        return res;
+    }*/
+
     public static Object[] getUserData(String token) {
         Object[] res = null;
 /*        try {
