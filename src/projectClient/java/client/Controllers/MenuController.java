@@ -9,6 +9,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.SubScene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -92,7 +93,27 @@ public class MenuController {
 
     @FXML
     void buttonEditAction(ActionEvent event) {
+        if (User.getRole() != null && User.getRole() == 1) {
 
+        }
+        else {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("ACCESS DENIED");
+            alert.setHeaderText("Ошибка доступа");
+            if (User.getUserName() == null) {
+                alert.setContentText("Вы не авторизованы. Авторизуйтесь для получения доступа");
+                alert.setOnHidden(e -> {
+                    try {
+                        buttonAuthAction(event);
+                    } catch (IOException ioException) {
+                        ioException.printStackTrace();
+                    }
+                });
+            }
+            else
+                alert.setContentText("Недостаточно прав доступа. Обратитесь к администратору");
+            alert.showAndWait();
+        }
     }
 
     @FXML
