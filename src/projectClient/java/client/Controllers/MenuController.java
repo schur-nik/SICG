@@ -92,9 +92,10 @@ public class MenuController {
     }
 
     @FXML
-    void buttonEditAction(ActionEvent event) {
+    void buttonEditAction(ActionEvent event) throws IOException {
         if (User.getRole() != null && User.getRole() == 1) {
-
+            Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("Models/EditFrame.fxml"));
+            buttonEdit.getScene().setRoot(root);
         }
         else {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
