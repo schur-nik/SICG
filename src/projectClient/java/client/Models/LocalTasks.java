@@ -38,7 +38,7 @@ public class LocalTasks extends Thread{
     }
 
     private void task1() {
-        Task taskKR1 = new Task("Задание 1. Пересчение плоскостей.");
+        Task taskKR1 = new Task("Контрольная работа #1. Пересчение плоскостей.");
         ImageView[] masImage = new ImageView[] {
                 getImageView("Answer1"),
                 getImageView("Answer2")
@@ -66,7 +66,7 @@ public class LocalTasks extends Thread{
     }
 
     private void task2() {
-        Task taskKR1 = new Task("Задание 2. Кривая в пространстве.");
+        Task taskKR1 = new Task("Контрольная работа #2. Кривая в пространстве.");
         ImageView[] masImage = new ImageView[] {
                 getImageView("Answer1"),
                 getImageView("Answer2")

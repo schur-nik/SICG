@@ -79,7 +79,7 @@ public class MenuController {
             });
             authStage.setOnHidden(e -> {
                 if (User.getUserName() != null)
-                    buttonAuth.setText("Profile");
+                    buttonAuth.setText("Профиль");
             });
             authStage.setScene(authScene);
             authStage.setResizable(false);
@@ -135,7 +135,7 @@ public class MenuController {
         pane.setCenter(new ImageView(new Image("TaskRes/Images/MenuImages/40iG.gif", 740, 550, true, false)));
         subsceneOne.setRoot(pane);
         if (User.getUserName() != null)
-            buttonAuth.setText("Profile");
+            buttonAuth.setText("Профиль");
     }
 
 }

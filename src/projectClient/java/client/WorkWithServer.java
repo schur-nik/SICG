@@ -118,6 +118,7 @@ public class WorkWithServer {
             coos.writeObject("exit");*/
             Map<String, Boolean> map = new HashMap<String, Boolean>();
             map.put("KR1", true);
+            map.put("KR2", true);
             res = new Object[]{"Schur", 1, map};
 /*        } catch (IOException | ClassNotFoundException e) {
             System.out.println("Server if offline");

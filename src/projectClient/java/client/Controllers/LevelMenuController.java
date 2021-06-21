@@ -13,6 +13,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 
 public class LevelMenuController {
@@ -68,6 +69,9 @@ public class LevelMenuController {
     private AnchorPane anchorPaneBdTasks;
 
     @FXML
+    private AnchorPane anchorPaneTeoria;
+
+    @FXML
     private Button buttonBack;
 
     @FXML
@@ -78,6 +82,16 @@ public class LevelMenuController {
 
     @FXML
     void initialize() {
+        Map<String, Task> tempList = new HashMap<>();
+        tempList.put("TR1", new Task("Тест #1"));
+        tempList.put("TR2", new Task("Тест #2"));
+        addButtonOnPane(anchorPaneBdTasks, tempList);
+
+        Map<String, Task> tempList2 = new HashMap<>();
+        tempList2.put("TM1", new Task("Теоритический материал #1"));
+        tempList2.put("TM2", new Task("Теоритический материал #2"));
+        addButtonOnPane(anchorPaneTeoria, tempList2);
+
         addButtonOnPane(anchorPaneBdTasks, WorkWithServer.getListTasksFromBd());
         addButtonOnPane(anchorPaneLocalTasks, LocalTasks.getListTask());
         setActionOnButton(anchorPaneBdTasks);
